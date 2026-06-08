@@ -62,6 +62,12 @@
         text-align: left;
     }
 
+    .nav-btns {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
     .login-btn {
         padding: 8px 18px;
         border-radius: 8px;
@@ -77,6 +83,73 @@
     .login-btn:hover {
         transform: translateY(-1px);
         box-shadow: 0 6px 18px rgba(79,156,255,0.4);
+    }
+
+    .dash-btn {
+        padding: 8px 18px;
+        border-radius: 8px;
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.15);
+        color: #ccc;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: 0.2s;
+        white-space: nowrap;
+    }
+
+    .dash-btn:hover {
+        background: rgba(255,255,255,0.14);
+        color: white;
+        transform: translateY(-1px);
+    }
+
+    .phishing-info {
+        margin-top: 25px;
+        padding: 20px 24px;
+        border-radius: 15px;
+        background: rgba(255, 80, 80, 0.06);
+        border: 1px solid rgba(255, 80, 80, 0.2);
+    }
+
+    .phishing-info h2 {
+        font-size: 15px;
+        font-weight: 700;
+        color: #ff6b6b;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .phishing-info p {
+        font-size: 13px;
+        color: #b0b0b0;
+        line-height: 1.7;
+        margin-bottom: 8px;
+    }
+
+    .phishing-info ul {
+        list-style: none;
+        padding: 0;
+        margin: 8px 0 0;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .phishing-info ul li {
+        font-size: 13px;
+        color: #b0b0b0;
+        padding-left: 18px;
+        position: relative;
+    }
+
+    .phishing-info ul li::before {
+        content: "•";
+        position: absolute;
+        left: 4px;
+        color: #ff6b6b;
     }
 
     textarea {
@@ -186,7 +259,10 @@
     <div class="header">
         <div class="header-top">
             <h1>🛡️ THREATFORGE</h1>
-            <a href="login.html" class="login-btn">Login / Dashboard</a>
+            <div class="nav-btns">
+                <a href="login.html" class="login-btn">Login</a>
+                <a href="dashboard.html" class="dash-btn">Dashboard</a>
+            </div>
         </div>
         <p>AI-style security analysis (Offline Engine)</p>
     </div>
@@ -206,6 +282,18 @@
         </div>
 
         <div class="reason" id="reasonText"></div>
+    </div>
+
+    <div class="phishing-info">
+        <h2>🎣 What is Phishing?</h2>
+        <p>Phishing is a type of cyberattack where criminals impersonate trusted entities — banks, companies, or people you know — to trick you into revealing sensitive information like passwords, credit card numbers, or personal data.</p>
+        <ul>
+            <li>Fake emails that look like they're from real organizations</li>
+            <li>Urgent messages pressuring you to "act now" or verify your account</li>
+            <li>Links to fake websites that steal your login credentials</li>
+            <li>Requests for personal information via SMS or messaging apps</li>
+        </ul>
+        <p style="margin-top:10px;">Paste any suspicious message above and ThreatForge will analyze it for phishing indicators.</p>
     </div>
 
 </div>
