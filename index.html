@@ -182,34 +182,34 @@
 </div>
 
 <script>
- async function analyzeMessage() {
-    let message = document.getElementById("message").value;
+async function analyze() {
+    const message = document.getElementById("message").value;
 
     if (!message) {
         alert("Please enter a message");
         return;
     }
 
+    const userId = localStorage.getItem("tf_user") || "anonymous";
+
     try {
-        let res = await fetch("https://threatforge-production.up.railway.app/analyze", {
+        const res = await fetch("/api/analyze", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ message })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message, userId })
         });
 
-        let data = await res.json();
+        const data = await res.json();
 
-        let box = document.getElementById("resultBox");
-        let badge = document.getElementById("badge");
-        let scoreText = document.getElementById("scoreText");
-        let scoreFill = document.getElementById("scoreFill");
-        let reasonText = document.getElementById("reasonText");
+        const box = document.getElementById("resultBox");
+        const badge = document.getElementById("badge");
+        const scoreText = document.getElementById("scoreText");
+        const scoreFill = document.getElementById("scoreFill");
+        const reasonText = document.getElementById("reasonText");
 
         box.style.display = "block";
 
-        let isPhishing = data.verdict === "Phishing";
+        const isPhishing = data.verdict === "Phishing";
 
         badge.innerHTML = `<span class="badge ${isPhishing ? 'phishing' : 'safe'}">${data.verdict}</span>`;
         scoreText.innerText = data.score;

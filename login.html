@@ -31,8 +31,7 @@ document.getElementById("loginForm")
     const password = document.getElementById("password").value;
 
     if(email.trim() !== "" && password.trim() !== ""){
-
-        // LOGIN SUCCESS → NEW PAGE OPEN
+        localStorage.setItem("tf_user", email.trim());
         window.location.href = "dashboard.html";
     }
 });

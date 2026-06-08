@@ -3,21 +3,302 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard</title>
-<link rel="stylesheet" href="style.css">
+<title>ThreatForge Dashboard</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+    body {
+        background: radial-gradient(circle at top, #0b1220, #05070f);
+        color: #e6e6e6;
+        min-height: 100vh;
+        padding: 30px 20px;
+    }
+
+    .topbar {
+        max-width: 1000px;
+        margin: 0 auto 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .topbar h1 {
+        font-size: 22px;
+        font-weight: 700;
+        color: #00d4ff;
+        letter-spacing: 1px;
+    }
+
+    .topbar-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .user-label {
+        font-size: 13px;
+        color: #aaa;
+    }
+
+    .btn {
+        padding: 8px 18px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        transition: 0.2s;
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #4f9cff, #6a5cff);
+        color: white;
+    }
+
+    .btn-outline {
+        background: rgba(255,255,255,0.07);
+        border: 1px solid rgba(255,255,255,0.15);
+        color: #ccc;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .stats-grid {
+        max-width: 1000px;
+        margin: 0 auto 30px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+    }
+
+    .stat-card {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 16px;
+        padding: 24px;
+        text-align: center;
+        backdrop-filter: blur(12px);
+    }
+
+    .stat-card .value {
+        font-size: 42px;
+        font-weight: 700;
+        line-height: 1;
+        margin-bottom: 8px;
+    }
+
+    .stat-card .label {
+        font-size: 13px;
+        color: #888;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .total   .value { color: #4f9cff; }
+    .safe    .value { color: #00e676; }
+    .phish   .value { color: #ff5252; }
+
+    .section {
+        max-width: 1000px;
+        margin: 0 auto;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.07);
+        border-radius: 16px;
+        overflow: hidden;
+    }
+
+    .section-header {
+        padding: 16px 24px;
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+        font-size: 14px;
+        font-weight: 600;
+        color: #bbb;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+    }
+
+    th {
+        padding: 12px 20px;
+        text-align: left;
+        color: #666;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 11px;
+        letter-spacing: 0.5px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    td {
+        padding: 12px 20px;
+        border-bottom: 1px solid rgba(255,255,255,0.04);
+        vertical-align: middle;
+        color: #ccc;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    .badge {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .badge-safe {
+        background: rgba(0,230,118,0.15);
+        color: #00e676;
+    }
+
+    .badge-phishing {
+        background: rgba(255,82,82,0.15);
+        color: #ff5252;
+    }
+
+    .msg-cell {
+        max-width: 380px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #999;
+    }
+
+    .score-wrap {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .mini-bar {
+        width: 60px;
+        height: 6px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .mini-fill {
+        height: 100%;
+        border-radius: 10px;
+        background: linear-gradient(90deg, #00e676, #ff5252);
+    }
+
+    .empty-state {
+        padding: 48px;
+        text-align: center;
+        color: #555;
+        font-size: 14px;
+    }
+
+    .loading { color: #555; padding: 32px; text-align: center; }
+
+    @media (max-width: 600px) {
+        .stats-grid { grid-template-columns: 1fr; }
+        .topbar { flex-direction: column; gap: 12px; align-items: flex-start; }
+    }
+</style>
 </head>
 <body>
 
-<div class="dash">
-
-    <h1>Welcome to ThreatForge Dashboard</h1>
-    <p>Login Successful ✔</p>
-
-    <a href="https://agent-69f374f4a3c0882--threatforge.netlify.app/">
-        <button>OPEN THREATFORGE</button>
-    </a>
-
+<div class="topbar">
+    <h1>🛡️ ThreatForge Dashboard</h1>
+    <div class="topbar-right">
+        <span class="user-label" id="userLabel"></span>
+        <a href="index.html" class="btn btn-primary">Analyze Message</a>
+        <button class="btn btn-outline" onclick="logout()">Logout</button>
+    </div>
 </div>
+
+<div class="stats-grid">
+    <div class="stat-card total">
+        <div class="value" id="statTotal">—</div>
+        <div class="label">Total Scans</div>
+    </div>
+    <div class="stat-card safe">
+        <div class="value" id="statSafe">—</div>
+        <div class="label">Safe</div>
+    </div>
+    <div class="stat-card phish">
+        <div class="value" id="statPhishing">—</div>
+        <div class="label">Phishing</div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-header">Recent Scans</div>
+    <div id="tableWrap" class="loading">Loading...</div>
+</div>
+
+<script>
+const userId = localStorage.getItem("tf_user") || "anonymous";
+document.getElementById("userLabel").textContent = "User: " + userId;
+
+async function loadStats() {
+    try {
+        const res = await fetch("/api/stats?userId=" + encodeURIComponent(userId));
+        const data = await res.json();
+
+        document.getElementById("statTotal").textContent = data.total;
+        document.getElementById("statSafe").textContent = data.safe;
+        document.getElementById("statPhishing").textContent = data.phishing;
+
+        const wrap = document.getElementById("tableWrap");
+
+        if (!data.recent || data.recent.length === 0) {
+            wrap.innerHTML = '<div class="empty-state">No scans yet. <a href="index.html" style="color:#4f9cff;">Analyze a message</a> to get started.</div>';
+            return;
+        }
+
+        const rows = data.recent.map(r => {
+            const isPhish = r.verdict === "Phishing";
+            const pct = Math.min(r.score, 100);
+            const date = new Date(r.created_at).toLocaleString();
+            return `<tr>
+                <td class="msg-cell" title="${escHtml(r.message)}">${escHtml(r.message)}</td>
+                <td><span class="badge ${isPhish ? 'badge-phishing' : 'badge-safe'}">${r.verdict}</span></td>
+                <td>
+                    <div class="score-wrap">
+                        <span>${r.score}</span>
+                        <div class="mini-bar"><div class="mini-fill" style="width:${pct}%"></div></div>
+                    </div>
+                </td>
+                <td>${date}</td>
+            </tr>`;
+        }).join("");
+
+        wrap.innerHTML = `<table>
+            <thead><tr>
+                <th>Message</th>
+                <th>Verdict</th>
+                <th>Score</th>
+                <th>Time</th>
+            </tr></thead>
+            <tbody>${rows}</tbody>
+        </table>`;
+    } catch (e) {
+        document.getElementById("tableWrap").innerHTML =
+            '<div class="empty-state">Failed to load stats.</div>';
+    }
+}
+
+function escHtml(s) {
+    return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+function logout() {
+    localStorage.removeItem("tf_user");
+    window.location.href = "login.html";
+}
+
+loadStats();
+</script>
 
 </body>
 </html>
