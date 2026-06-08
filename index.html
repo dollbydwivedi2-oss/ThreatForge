@@ -41,6 +41,14 @@
         margin-bottom: 25px;
     }
 
+    .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
     .header h1 {
         font-size: 26px;
         font-weight: 700;
@@ -50,7 +58,25 @@
     .header p {
         font-size: 13px;
         color: #aaa;
-        margin-top: 5px;
+        margin-top: 8px;
+        text-align: left;
+    }
+
+    .login-btn {
+        padding: 8px 18px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #4f9cff, #6a5cff);
+        color: white;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: 0.2s;
+        white-space: nowrap;
+    }
+
+    .login-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 18px rgba(79,156,255,0.4);
     }
 
     textarea {
@@ -158,13 +184,16 @@
 <div class="container">
 
     <div class="header">
-        <h1>🛡️ THREATFORGE </h1>
+        <div class="header-top">
+            <h1>🛡️ THREATFORGE</h1>
+            <a href="login.html" class="login-btn">Login / Dashboard</a>
+        </div>
         <p>AI-style security analysis (Offline Engine)</p>
     </div>
 
     <textarea id="message" placeholder="Paste email, SMS, or message here..."></textarea>
 
-    <button onclick="analyze()">Analyze Message</button>
+    <button onclick="analyzeMessage()">Analyze Message</button>
 
     <div class="result" id="resultBox">
         <div id="badge"></div>
